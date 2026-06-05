@@ -5,55 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vòng Quay Thẻ Bài May Mắn</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 </head>
 <body>
-
     <canvas id="bgCanvas"></canvas>
 
-    <div class="auth-overlay" id="authOverlay">
-        <div class="auth-box">
-            <h2 id="authFormTitle">ĐĂNG NHẬP GAME</h2>
-            <div class="input-group">
-                <label>Tên tài khoản:</label>
-                <input type="text" id="authUsername" placeholder="Nhập tên tài khoản...">
-            </div>
-            <div class="input-group">
-                <label>Mật khẩu:</label>
-                <input type="password" id="authPassword" placeholder="Nhập mật khẩu...">
-            </div>
-            <div class="auth-buttons">
-                <button id="loginBtn" class="auth-btn main-btn">Đăng Nhập</button>
-                <button id="registerBtn" class="auth-btn sub-btn">Đăng Ký Tài Khoản</button>
-            </div>
-            <p id="authError" class="auth-error"></p>
+    <div class="inventory-popup" id="inventoryPopup" style="display: none;">
+        <div class="inventory-content">
+            <button class="close-popup-btn" onclick="toggleInventory()">X</button>
+            <div id="inventoryList" class="inventory-list"></div>
         </div>
     </div>
 
-    <div class="main-layout">
-        <div class="gacha-container">
-            <h1>Vòng Quay Thẻ Bài May Mắn</h1>
-            <button id="logoutBtn" class="logout-btn">Đăng Xuất Tài Khoản</button>
-            <div class="card-wrapper" id="cardWrapper"></div>
-            <button class="reset-btn" id="resetBtn" disabled>Chơi Lượt Mới</button>
-        </div>
-
-        <div class="inventory-box">
-            <h3>Bộ Sưu Tập Thẻ Bài</h3>
-            <div class="inventory-list" id="inventoryList">
-                <div class="empty-inventory">Chưa mở được thẻ bài nào</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="popup-overlay" id="popupOverlay">
+    <div class="popup-overlay" id="ssrPopup">
         <div class="popup">
-            <h2 id="popupTitle">SIÊU CẤP QUÝ HIẾM! 🌟</h2>
+            <button class="close-popup-btn" id="closeSSRBtn">X</button>
+            <h2 id="popupTitle"></h2>
             <p id="popupText"></p>
-            <button id="closeBtn">Tiếp tục</button>
+        </div>
+    </div>
+
+    <div class="auth-overlay" id="authOverlay">
+        <h2 id="authFormTitle">ĐĂNG NHẬP GAME</h2>
+        <div class="input-group"><input type="text" id="authUsername" placeholder="Tên tài khoản"></div>
+        <div class="input-group"><input type="password" id="authPassword" placeholder="Mật khẩu"></div>
+        <div class="auth-buttons">
+            <button id="loginBtn" class="auth-btn main-btn">Đăng Nhập</button>
+            <button id="registerBtn" class="auth-btn sub-btn">Đăng Ký Tài Khoản</button>
+        </div>
+        <p id="authError" class="auth-error"></p>
+    </div>
+
+    <div class="menu-overlay" id="menuOverlay" style="display: none;">
+        <div class="player-profile-top">
+            <div class="avatar-display" onclick="toggleAvatarPicker()">
+                <img id="currentAvatar" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Avatar">
+            </div>
+            <div class="player-info-right">
+                <h2 id="playerNameDisplay"></h2>
+                <div class="wallet-display">
+                    <div class="coin-box">💰 <span id="coinCount">0</span></div>
+                    <div class="diamond-box">💎 <span id="diamondCount">0</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-list">
+            <button class="game-btn" onclick="openGame('cardGame')">Bài Ma Thuật</button>
+            <button class="game-btn" onclick="alert('...')">Xúc Xắc May Mắn</button>
+            <button class="game-btn" onclick="alert('...')">Búa Bao Kéo</button>
+            <button class="game-btn" style="background: #e67e22;" onclick="toggleInventory()">Bộ Sưu Tập</button>
+        </div>
+        <button id="logoutBtn" class="logout-btn">Đăng Xuất</button>
+    </div>
+
+    <div class="game-container" id="cardGame" style="display: none;">
+        <button id="backBtn" onclick="backToMenu()" class="back-btn">Quay lại</button>
+        <div class="main-layout">
+            <div class="gacha-container">
+                <button id="openPackBtn" class="main-btn">Mở Gói Thẻ </button>
+                <button id="openPack10Btn" class="main-btn">Mở Gói Thẻ X10 </button>
+                <div class="card-wrapper" id="cardWrapper" style="display: none;"></div>
+                <div id="resultLog" class="result-log" style="display: none;">
+                 <h3>Kết quả lượt mở:</h3>
+                 <ul id="resultList"></ul>
+                </div>
+            </div>
         </div>
     </div>
 
