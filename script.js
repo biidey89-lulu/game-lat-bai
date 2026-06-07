@@ -475,10 +475,18 @@ function resetGameToStart() {
 }
 
 function openInventory() {
-    document.getElementById('menuOverlay').style.display = 'none'; // Ẩn menu chính
-    document.getElementById('inventoryScreen').style.display = 'block'; // Hiện màn hình mới
+    // 1. Ẩn menu chính
+    document.getElementById('menuOverlay').style.display = 'none';
     
-    // Gọi hàm render danh sách thẻ ở đây
+    // 2. Hiện màn hình kho đồ
+    const invScreen = document.getElementById('inventoryScreen');
+    invScreen.style.display = 'block'; 
+    
+    // 3. Đảm bảo nút back-btn bên trong nó được hiện
+    const backBtnInv = document.getElementById('backBtnInv');
+    if (backBtnInv) {
+        backBtnInv.style.display = 'block';
+    }
     renderInventory(); 
 }
 

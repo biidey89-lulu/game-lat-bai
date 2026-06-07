@@ -190,6 +190,14 @@ body {
     position: relative; /* Thay absolute thành relative */
     top: auto;          /* Xóa các vị trí ghim */
     left: auto;
+    padding: 10px 20px;
+    background: #ff4757;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 9999;
     
     /* Các thuộc tính giữ nguyên */
     padding: 10px 20px;
@@ -274,21 +282,63 @@ body {
     object-fit: contain; 
     margin-bottom: 5px; 
 }
-
-.game-box-main-btn {
-    width: 80%;
-    padding: 20px;
-    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
-    color: white;
-    border: none;
-    border-radius: 15px;
-    font-size: 18px;
-    font-weight: bold;
+/* Ép buộc xóa sạch mọi kiểu dáng cho nút icon này */
+.game-box-icon-btn {
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
-    margin-bottom: 10px;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    -webkit-tap-highlight-color: transparent !important;
 }
 
+.game-box-icon-btn:hover {
+    transform: scale(1.1) !important;
+    background: transparent !important;
+}
+
+/* Style cho nút Bộ sưu tập dạng ảnh */
+.inventory-icon-btn {
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    padding: 0 !important;
+    margin: 10px 0 !important; /* Tạo khoảng cách dọc */
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+.inventory-icon-btn:hover {
+    transform: scale(1.1) !important;
+}
+
+.inventory-icon-btn img {
+    display: block !important;
+    width: 80px !important;  /* Bạn có thể tùy chỉnh kích thước ở đây */
+    height: 80px !important;
+    object-fit: contain !important;
+    pointer-events: none !important; /* Giúp click xuyên qua ảnh */
+}
+
+/* Đảm bảo ảnh không bị dính viền hoặc khoảng trống */
+.game-box-icon-btn img {
+    display: block !important;
+    width: 80px !important; 
+    height: 80px !important;
+    object-fit: contain !important;
+    pointer-events: none !important;
+    border: none !important;
+    margin: 0 !important;
+}
 /* Container game (đã tinh chỉnh) */
 .game-box-container {
     width: 80%;
@@ -329,10 +379,6 @@ body {
 .popup-overlay.active { opacity: 1; pointer-events: auto; z-index: 9999; }
 .popup { background: #1e272e; padding: 20px; border-radius: 15px; text-align: center; border: 2px solid var(--ssr); }
 
-/* --- 7. RESPONSIVE --- */
-@media (max-width: 850px) {
-    .main-layout { flex-direction: column; align-items: center; }
-}
 /* Tinh chỉnh Popup chính */
 #inventoryScreen {
     position: fixed;
@@ -545,6 +591,7 @@ body {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    gap: 5px;
 }
 #resultLog {
     display: none;
@@ -586,10 +633,11 @@ body {
     pointer-events: auto; /* Quan trọng: cho phép nhận sự kiện chuột */
 }
 @media (max-width: 600px) {
-    #openPackBtn, #openPack10Btn {
-        width: 80%;
-        padding: 15px;
-        font-size: 1.2rem;
+    /* 1. Ép tất cả các màn hình không tràn quá chiều rộng */
+    .screen, .game-container, .menu-overlay {
+        width: 100vw !important;
+        padding: 10px !important;
+        box-sizing: border-box !important;
     }
     .card {
         width: 90px;
@@ -598,12 +646,13 @@ body {
 }
 .screen {
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     background: transparent;
     padding: 20px;
     box-sizing: border-box;
     transition: opacity 0.3s ease-in-out;
     padding-top: 20px;
+    display: none; /* Mặc định ẩn */
 }
 
 .inventory-grid {
@@ -612,6 +661,16 @@ body {
     gap: 15px;
     margin: 0 auto;
     max-width: 800px;
+}
+.content-header {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: flex-start; /* Đẩy nút sang trái */
+    background: transparent;
+    z-index: 1005; /* Đảm bảo cao hơn các lớp khác */
+    position: sticky; /* Giữ nút ở phía trên cùng màn hình khi cuộn */
+    top: 0;
 }
 .header {
     display: flex;
@@ -654,18 +713,44 @@ input::-webkit-inner-spin-button {
 #deleteAmount:focus {
     border-color: var(--gold);
 }
+.game-box-wrapper {
+    position: relative;
+    flex: 1; /* Chiếm toàn bộ phần không gian còn lại */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 600px; /* Độ rộng tối đa để ảnh không quá to */
+    margin: 0 auto;
+    overflow: hidden;
+}
+/* Ảnh PNG làm khung */
+.game-box-frame {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Ảnh luôn hiển thị trọn vẹn, không bao giờ bị méo */
+    pointer-events: none; /* Cho phép click qua ảnh */
+}
 
+.game-buttons-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%; /* Độ rộng vùng nút */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
 .game-card {
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 15px;
-    padding: 15px;
+    background: rgba(255, 255, 255, 0.1) !important; /* Nền mờ để lộ ảnh dưới */
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    backdrop-filter: blur(5px);
+    color: white !important;
+    padding: 15px !important;
+    border-radius: 12px;
     display: flex;
     align-items: center;
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-decoration: none;
     width: 100%;
 }
 
@@ -766,13 +851,17 @@ input::-webkit-inner-spin-button {
     transition: 0.3s;
 }
 #gameBoxScreen {
-    background: transparent; /* Màu nền đồng bộ với game */
-    padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    position: fixed; /* Cố định vị trí trên màn hình */
+    top: 0;
+    left: 0;
+    padding: 80px 0 70px 0; /* Padding tương ứng với chiều cao top-bar (80px) và bottom-nav (70px) */
+    box-sizing: border-box;
+    z-index: 100;
 }
-
 .game-box-grid {
     width: 100%;
     max-width: 400px;
@@ -793,4 +882,9 @@ input::-webkit-inner-spin-button {
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
+}
+/* Đảm bảo nút Quay lại trong kho đồ luôn click được */
+#inventoryScreen .content-header {
+    position: relative;
+    z-index: 1002; /* Cao hơn top-bar (1000) */
 }

@@ -47,11 +47,11 @@
 
         <div class="menu-overlay" id="menuOverlay" style="display: none;">
     
-            <button class="game-box-main-btn" onclick="toggleGameBox()">
-                🎮 GAME BOX
+            <button class="game-box-icon-btn" onclick="toggleGameBox()">
+                <img src="https://github.com/biidey89-lulu/game-lat-bai/raw/main/Images/gameicon.png" alt="Game Box">
             </button>
-            <button class="inventory-btn" onclick="openInventory()">
-                🎒 Bộ Sưu Tập
+            <button class="inventory-icon-btn" onclick="openInventory()">
+                <img src="https://github.com/biidey89-lulu/game-lat-bai/raw/main/Images/collectionicon.png" alt="Bộ Sưu Tập">
             </button>
         </div>
         
@@ -60,24 +60,27 @@
                 <button class="back-btn" onclick="backToMenu()"> Quay Lại </button>
             </div>
         
-            
-            <div class="game-box-grid">
-                <button class="game-card" onclick="openGame('cardGame')">
-                    <div class="game-icon">🃏</div> <span>Bài Ma Thuật</span>
-                </button>
-                <button class="game-card" onclick="alert('...')">
-                    <div class="game-icon">🎲</div> <span>Xúc Xắc</span>
-                </button>
-                <button class="game-card" onclick="alert('...')">
-                    <div class="game-icon">✂️</div> <span>Búa Bao Kéo</span>
-                </button>
+            <div class="game-box-wrapper">
+                <img src="https://github.com/biidey89-lulu/game-lat-bai/raw/main/Images/popupicon.png" class="game-box-frame" alt="Frame">
+                
+                <div class="game-buttons-overlay">
+                    <button class="game-card" onclick="openGame('cardGame')">
+                        <div class="game-icon">🃏</div> <span>Bài Ma Thuật</span>
+                    </button>
+                    <button class="game-card" onclick="alert('...')">
+                        <div class="game-icon">🎲</div> <span>Xúc Xắc</span>
+                    </button>
+                    <button class="game-card" onclick="alert('...')">
+                        <div class="game-icon">✂️</div> <span>Búa Bao Kéo</span>
+                    </button>
+                </div>
             </div>
         </div>
 
         <div id="inventoryScreen" class="screen" style="display: none;">
             <div class="content-header">
-        <button class="back-btn" onclick="backToMenu()"> Quay Lại </button>
-    </div>
+                <button class="back-btn inventory-back" onclick="backToMenu()"> Quay Lại </button>
+            </div>
             <div class="tabs">
                 <button class="tab-btn active" id="tab-inventory" onclick="switchTab('inventory')">Kho</button>
                 <button class="tab-btn" id="tab-crafting" onclick="switchTab('crafting')">Ghép Đồ</button>
