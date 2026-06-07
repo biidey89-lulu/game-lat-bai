@@ -99,19 +99,31 @@ function showGameUI() {
     // Ẩn màn hình đăng nhập
     document.getElementById('authOverlay').style.display = 'none';
     
+    document.getElementById('gameBoxScreen').style.display = 'none';
     // Hiện menu chính
     document.getElementById('menuOverlay').style.display = 'block';
 }
 // Hàm quay lại menu chính (đảm bảo nút luôn hiển thị khi ở menu game)
 function openGame(id) { 
-    menuOverlay.style.display = 'none'; 
+    console.log("Đang mở game:", id);
+    
+    // 1. Ẩn tất cả màn hình có class 'screen'
+    document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+    document.getElementById('menuOverlay').style.display = 'none';
+    document.getElementById('gameBoxScreen').style.display = 'none';
+
+    // 2. Tìm và hiện màn hình game đích
     const gameElement = document.getElementById(id);
     if (gameElement) {
-        gameElement.style.display = 'block';
+        gameElement.style.display = 'block'; // Hiện game
         
-        // HIỆN nút quay lại ngay khi vừa vào màn hình game
+        // Hiện nút Back
         const backBtn = document.getElementById('backBtn');
-        if (backBtn) backBtn.style.display = 'block'; 
+        if (backBtn) backBtn.style.display = 'block';
+        
+        console.log("Đã mở thành công:", id);
+    } else {
+        console.error("Không tìm thấy màn hình game có ID:", id);
     }
 }
 
@@ -224,6 +236,18 @@ function toggleInventory() {
         renderInventory();
     }
 }
+
+function toggleGameBox() {
+    // 1. Ẩn menu chính
+    document.getElementById('menuOverlay').style.display = 'none';
+    
+    // 2. Hiện màn hình GameBox
+    const gameBox = document.getElementById('gameBoxScreen');
+    if (gameBox) {
+        gameBox.style.display = 'block'; // Thay vì flex, hãy dùng block (đúng với CSS .screen của bạn)
+    }
+}
+ 
 function openPack() {
     if (isProcessing) return; // Nếu đang xử lý thì chặn click
     
@@ -461,6 +485,7 @@ function openInventory() {
 function backToMenu() {
     document.getElementById('cardGame').style.display = 'none';
     document.getElementById('inventoryScreen').style.display = 'none';
+    document.getElementById('gameBoxScreen').style.display = 'none';
     document.getElementById('menuOverlay').style.display = 'flex';
 
     // Ẩn giao diện game

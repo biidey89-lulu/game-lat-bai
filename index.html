@@ -46,13 +46,32 @@
         </div>
 
         <div class="menu-overlay" id="menuOverlay" style="display: none;">
-            <div class="game-list">
-                <button class="game-btn" onclick="openGame('cardGame')">Bài Ma Thuật</button>
-                <button class="game-btn" onclick="alert('...')">Xúc Xắc May Mắn</button>
-                <button class="game-btn" onclick="alert('...')">Búa Bao Kéo</button>
-                <button class="game-btn" onclick="openInventory()">Bộ Sưu Tập</button>
+    
+            <button class="game-box-main-btn" onclick="toggleGameBox()">
+                🎮 GAME BOX
+            </button>
+            <button class="inventory-btn" onclick="openInventory()">
+                🎒 Bộ Sưu Tập
+            </button>
+        </div>
+        
+        <div id="gameBoxScreen" class="screen" style="display: none;">
+            <div class="content-header">
+                <button class="back-btn" onclick="backToMenu()"> Quay Lại </button>
             </div>
-            <button id="logoutBtn" class="logout-btn" onclick="event.stopPropagation()">Đăng Xuất</button>
+        
+            
+            <div class="game-box-grid">
+                <button class="game-card" onclick="openGame('cardGame')">
+                    <div class="game-icon">🃏</div> <span>Bài Ma Thuật</span>
+                </button>
+                <button class="game-card" onclick="alert('...')">
+                    <div class="game-icon">🎲</div> <span>Xúc Xắc</span>
+                </button>
+                <button class="game-card" onclick="alert('...')">
+                    <div class="game-icon">✂️</div> <span>Búa Bao Kéo</span>
+                </button>
+            </div>
         </div>
 
         <div id="inventoryScreen" class="screen" style="display: none;">
@@ -107,6 +126,7 @@
         <button class="nav-btn" onclick="openInventory()">🎒</button>
         <button class="nav-btn" onclick="alert('Shop')">🛒</button>
         <button class="nav-btn" onclick="alert('Cài đặt')">⚙️</button>
+        <button id="logoutBtn" class="nav-btn" title="Đăng xuất">🚪</button>
     </footer>
 
     <script src="script.js" defer></script>
