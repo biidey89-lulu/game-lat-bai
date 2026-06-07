@@ -12,69 +12,102 @@
 <body>
     <canvas id="bgCanvas"></canvas>
 
-    <div class="inventory-popup" id="inventoryPopup" style="display: none;">
-        <div class="inventory-content">
-            <button class="close-popup-btn" onclick="toggleInventory()">X</button>
-            <div id="inventoryList" class="inventory-list"></div>
-        </div>
-    </div>
-
-    <div class="popup-overlay" id="ssrPopup">
-        <div class="popup">
-            <button class="close-popup-btn" id="closeSSRBtn">X</button>
-            <h2 id="popupTitle"></h2>
-            <p id="popupText"></p>
-        </div>
-    </div>
-
-    <div class="auth-overlay" id="authOverlay">
-        <h2 id="authFormTitle">ĐĂNG NHẬP GAME</h2>
-        <div class="input-group"><input type="text" id="authUsername" placeholder="Tên tài khoản"></div>
-        <div class="input-group"><input type="password" id="authPassword" placeholder="Mật khẩu"></div>
-        <div class="auth-buttons">
-            <button id="loginBtn" class="auth-btn main-btn">Đăng Nhập</button>
-            <button id="registerBtn" class="auth-btn sub-btn">Đăng Ký Tài Khoản</button>
-        </div>
-        <p id="authError" class="auth-error"></p>
-    </div>
-
-    <div class="menu-overlay" id="menuOverlay" style="display: none;">
-        <div class="player-profile-top">
+    <header id="topBar" class="top-bar" style="display: none;">
+        <div class="player-left-group">
             <div class="avatar-display" onclick="toggleAvatarPicker()">
                 <img id="currentAvatar" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Avatar">
             </div>
-            <div class="player-info-right">
-                <h2 id="playerNameDisplay"></h2>
-                <div class="wallet-display">
-                    <div class="coin-box">💰 <span id="coinCount">0</span></div>
-                    <div class="diamond-box">💎 <span id="diamondCount">0</span></div>
+            <h2 id="playerNameDisplay">Tên của bạn</h2>
+        </div>
+        <div class="wallet-display">
+            <div class="coin-box">💰 <span id="coinCount">0</span></div>
+            <div class="diamond-box">💎 <span id="diamondCount">0</span></div>
+        </div>
+    </header>
+
+    <main class="game-content">
+        <div class="popup-overlay" id="ssrPopup">
+            <div class="popup">
+                <button class="close-popup-btn" id="closeSSRBtn">X</button>
+                <h2 id="popupTitle"></h2>
+                <p id="popupText"></p>
+            </div>
+        </div>
+
+        <div class="auth-overlay" id="authOverlay">
+            <h2 id="authFormTitle"></h2>
+            <div class="input-group"><input type="text" id="authUsername" placeholder="Tên tài khoản" ></div>
+            <div class="input-group"><input type="password" id="authPassword" placeholder="Mật khẩu"></div>
+            <div class="auth-buttons">
+                <button id="loginBtn" class="auth-btn main-btn">Đăng Nhập</button>
+                <button id="registerBtn" class="auth-btn sub-btn">Đăng Ký Tài Khoản</button>
+            </div>
+            <p id="authError" class="auth-error"></p>
+        </div>
+
+        <div class="menu-overlay" id="menuOverlay" style="display: none;">
+            <div class="game-list">
+                <button class="game-btn" onclick="openGame('cardGame')">Bài Ma Thuật</button>
+                <button class="game-btn" onclick="alert('...')">Xúc Xắc May Mắn</button>
+                <button class="game-btn" onclick="alert('...')">Búa Bao Kéo</button>
+                <button class="game-btn" onclick="openInventory()">Bộ Sưu Tập</button>
+            </div>
+            <button id="logoutBtn" class="logout-btn" onclick="event.stopPropagation()">Đăng Xuất</button>
+        </div>
+
+        <div id="inventoryScreen" class="screen" style="display: none;">
+            <div class="content-header">
+        <button class="back-btn" onclick="backToMenu()"> Quay Lại </button>
+    </div>
+            <div class="tabs">
+                <button class="tab-btn active" id="tab-inventory" onclick="switchTab('inventory')">Kho</button>
+                <button class="tab-btn" id="tab-crafting" onclick="switchTab('crafting')">Ghép Đồ</button>
+                <button class="tab-btn" id="tab-shop" onclick="switchTab('shop')">Cửa Hàng</button>
+                <button class="tab-btn" id="tab-market" onclick="switchTab('market')">Chợ</button>
+            </div>
+            <div id="inventoryContent" class="tab-content">
+                <div id="inventoryList" class="inventory-grid"></div>
+            </div>
+            <div id="craftingContent" class="tab-content" style="display: none;">Tính năng ghép đồ...</div>
+            <div id="shopContent" class="tab-content" style="display: none;">Tính năng cửa hàng...</div>
+            <div id="marketContent" class="tab-content" style="display: none;">Tính năng chợ...</div>
+        </div>
+        
+        <div class="game-container" id="cardGame" style="display: none;">
+            <div class="game-header-area">
+        <button id="backBtn" onclick="backToMenu()" class="back-btn"> Quay Lại </button>
+    </div>
+            <div class="main-layout">
+                <div class="gacha-container">
+                    <button id="openPackBtn" class="main-btn">Mở Gói Thẻ </button>
+                    <button id="openPack10Btn" class="main-btn">Mở Gói Thẻ X10 </button>
+                    <div class="card-wrapper" id="cardWrapper" style="display: none;"></div>
+                    <div id="resultLog" class="result-log" style="display: none;">
+                        <ul id="resultList"></ul>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="game-list">
-            <button class="game-btn" onclick="openGame('cardGame')">Bài Ma Thuật</button>
-            <button class="game-btn" onclick="alert('...')">Xúc Xắc May Mắn</button>
-            <button class="game-btn" onclick="alert('...')">Búa Bao Kéo</button>
-            <button class="game-btn" style="background: #e67e22;" onclick="toggleInventory()">Bộ Sưu Tập</button>
-        </div>
-        <button id="logoutBtn" class="logout-btn">Đăng Xuất</button>
-    </div>
-
-    <div class="game-container" id="cardGame" style="display: none;">
-        <button id="backBtn" onclick="backToMenu()" class="back-btn">Quay lại</button>
-        <div class="main-layout">
-            <div class="gacha-container">
-                <button id="openPackBtn" class="main-btn">Mở Gói Thẻ </button>
-                <button id="openPack10Btn" class="main-btn">Mở Gói Thẻ X10 </button>
-                <div class="card-wrapper" id="cardWrapper" style="display: none;"></div>
-                <div id="resultLog" class="result-log" style="display: none;">
-                 <h3>Kết quả lượt mở:</h3>
-                 <ul id="resultList"></ul>
+        <div class="popup-overlay" id="deletePopup">
+            <div class="popup">
+                <h3 id="deletePopupTitle">Xóa vật phẩm</h3>
+                <p id="deletePopupMsg">Nhập số lượng muốn xóa:</p>
+                <input type="number" id="deleteAmount" placeholder="Số lượng..." style="width: 100%; max-width: 200px; padding: 10px; border-radius: 5px; border: 1px solid #444; background: #0b0e17; color: white; text-align: center; margin: 10px 0;">
+                <div style="margin-top: 15px;">
+                    <button onclick="confirmDelete()" class="main-btn" style="padding: 10px 20px;">Xác nhận</button>
+                    <button onclick="closeDeletePopup()" class="sub-btn" style="padding: 10px 20px;">Hủy</button>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
+
+    <footer id="bottomNav" class="bottom-nav" style="display: none;" >
+        <button class="nav-btn" onclick="backToMenu()">🏠</button>
+        <button class="nav-btn" onclick="openInventory()">🎒</button>
+        <button class="nav-btn" onclick="alert('Shop')">🛒</button>
+        <button class="nav-btn" onclick="alert('Cài đặt')">⚙️</button>
+    </footer>
 
     <script src="script.js" defer></script>
 </body>

@@ -2,17 +2,67 @@
 :root {
     --gold: #f1c40f; --ssr: #ff4757; --sr: #ffa502; --r: #1e90ff;
 }
-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #ffffff; margin: 0; min-height: 100vh; background: #090a15; }
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url('https://raw.githubusercontent.com/biidey89-lulu/game-lat-bai/main/Images/loginback.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Giúp ảnh đứng yên khi cuộn trang */
+    background-color: #0b0e17; /* Màu nền dự phòng khi ảnh chưa tải xong */
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden; /* Ngăn chặn cuộn trang không mong muốn */
+}
 #bgCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; }
 
 /* --- 2. GIAO DIỆN ĐĂNG NHẬP --- */
 .auth-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://raw.githubusercontent.com/biidey89-lulu/game-lat-bai/main/Images/loginback.webp');
     background-size: cover; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 200;
 }
-.input-group { width: 90%; max-width: 320px; margin-bottom: 20px; }
-.input-group input { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #323b54; background: rgba(255,255,255,0.05); color: white; box-sizing: border-box; }
+.input-group { 
+    width: 90%; 
+    max-width: 320px; 
+    margin-bottom: 20px; 
+}
+.input-group input { 
+    width: 100%; 
+    padding: 15px; 
+    border-radius: 10px; 
+    border: 2px solid #ffe600; 
+    background: rgba(253, 253, 253, 0.05); 
+    color: rgb(0, 0, 0); 
+    box-sizing: border-box; 
+    font-size: 16px;
+}
+
+
+/* Hiệu ứng khi di chuột vào (Hover) */
+.input-group input:hover {
+    border-color: var(--gold); /* Màu vàng gold bạn đã định nghĩa */
+    background: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+}
+
+/* Hiệu ứng khi đang nhập (Focus) */
+.input-group input:focus {
+    border-color: var(--gold);
+    outline: none;
+    box-shadow: 0 0 10px rgba(241, 196, 15, 0.5); /* Hiệu ứng hào quang vàng */
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Thêm transition để hiệu ứng mượt mà */
+.input-group input {
+    transition: all 0.3s ease-in-out;
+}
+
+.input-group input::placeholder { /* Chuẩn hiện đại */
+    color: rgba(0, 0, 0, 0.6) !important;
+    font-weight: bolder;
+}
 .auth-buttons { display: flex; flex-direction: column; gap: 10px; width: 320px; }
 .auth-btn { padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
 .main-btn { background: var(--gold); color: #000; }
@@ -20,31 +70,109 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #fff
 .auth-error { font-size: 0.9rem; margin-top: 15px; min-height: 20px; text-align: center; font-weight: bold; }
 
 /* --- 3. GIAO DIỆN MENU & PROFILE --- */
-.menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0b0e17; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 50; pointer-events: auto; }
-.player-profile-top { position: absolute; top: 60px; left: 40px; display: flex; align-items: center; gap: 15px; z-index: 600; }
-.player-info-right { display: flex; flex-direction: column; gap: 2px; }
-.avatar-display img { width: 60px; height: 60px; border-radius: 50%; border: 3px solid var(--gold); cursor: pointer; transition: 0.2s; }
-.avatar-display img:hover { transform: scale(1.1); }
-#playerNameDisplay { margin: 0; font-size: 1.2rem; color: white; text-shadow: 1px 1px 2px #000; }
-.wallet-display { display: flex; gap: 15px; font-weight: bold; font-size: 0.9rem; text-shadow: 1px 1px 2px #000; }
-.coin-box { color: #f1c40f; }
-.diamond-box { color: #00d2d3; }
+.menu-overlay { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    z-index: 50; 
+    pointer-events: auto; 
+}
+
+.player-profile-top { 
+    position: absolute; 
+    top: 60px; 
+    left: 0;           /* Chuyển về 0 */
+    right: 0;          /* Thêm right: 0 để container rộng hết màn hình */
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; /* Đẩy Avatar+Tên sang trái, ví tiền sang phải */
+    padding: 0 40px;   /* Thay thế khoảng cách lề trái bằng padding 2 bên */
+    z-index: 600; 
+}
+.player-left-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.player-info-right { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 2px; }
+
+.avatar-display img { 
+    width: 60px; 
+    height: 60px; 
+    border-radius: 50%; 
+    border: 3px solid var(--ssr); 
+    cursor: pointer; 
+    transition: 0.2s;
+ }
+.avatar-display img:hover { 
+    transform: scale(1.1);
+ }
+
+#playerNameDisplay { 
+    margin: 0; 
+    font-size: 1.6rem; 
+    color: rgb(255, 0, 0); 
+    text-shadow: 1px 1px 2px #000;
+ }
+ 
+.wallet-display {
+    display: flex;
+    gap: 15px;
+    padding: 8px 15px;
+    border-radius: 20px;
+    color: white;
+    font-size: 1.3rem; 
+    text-shadow: 2px 2px 3px #000;
+}
+.coin-box {
+     color: #f1c40f;
+      text-shadow: 2px 2px 3px #000;
+    }
+.diamond-box {
+     color: #00d2d3;
+     text-shadow: 2px 2px 3px #000;
+     }
 
 /* --- 4. CÁC NÚT BẤM & GAME LIST --- */
 .game-list { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 20px; }
-.game-btn { 
-    width: 280px; padding: 16px; font-size: 1.1rem; font-weight: bold; color: white;
-    background: linear-gradient(135deg, #6c5ce7, #a29bfe); border: none; border-radius: 20px; 
-    cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+.game-btn {
+    width: 80%;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Viền mờ */
+    background: rgba(0, 0, 0, 0.5); /* Màu đen trong suốt */
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px); /* Hiệu ứng làm mờ nền */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    font-size: 16px;
+    letter-spacing: 0.5px;
 }
-.game-btn:hover { transform: scale(1.08); box-shadow: 0 10px 25px rgba(108, 92, 231, 0.4); letter-spacing: 1px; }
+.game-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
 .game-btn:active { transform: scale(0.95); }
 .game-btn .icon { font-size: 1.5rem; }
 .logout-btn { padding: 10px 25px; background: transparent; border: 1px solid #ff4757; color: #ff4757; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; margin-top: 30px; }
 .logout-btn:hover { background: #ff4757; color: white; }
 
 /* --- 5. GAMEPLAY & THẺ BÀI --- */
-.game-container { width: 100%; padding-top: 50px; }
+.game-container { width: 100%; padding-top: 20px; }
 .main-layout { display: flex; flex-direction: row; justify-content: center; align-items: flex-start; gap: 40px; max-width: 1200px; margin: 0 auto; padding: 20px; }
 .gacha-container {
     display: flex;
@@ -54,18 +182,24 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #fff
     margin: 0 auto;
 }
 .back-btn {
-    position: absolute;
-    top: 20px;
-    left: 20px;
+    /* CHỈNH SỬA TẠI ĐÂY */
+    position: relative; /* Thay absolute thành relative */
+    top: auto;          /* Xóa các vị trí ghim */
+    left: auto;
+    
+    /* Các thuộc tính giữ nguyên */
     padding: 10px 20px;
     background: #2f3542;
     color: white;
     border: 1px solid var(--gold);
     border-radius: 8px;
     cursor: pointer;
-    z-index: 1000;
+    z-index: 10;        /* Giảm z-index vì không còn cần đè lên header nữa */
     font-weight: bold;
-    /* Xóa dòng display: none hoặc display: block ở đây */
+    
+    /* Thêm margin để tạo khoảng cách với nội dung */
+    margin: 15px 0 15px 15px; 
+    display: inline-block;
 }
 
 #openPackBtn { padding: 20px 40px; font-size: 1.5rem; background: linear-gradient(45deg, #f1c40f, #e67e22); border: none; border-radius: 50px; color: white; cursor: pointer; margin: 50px auto; display: block; transition: transform 0.2s; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
@@ -162,10 +296,6 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #fff
 .tier-sr { background: #ffa502; color: white; }
 .tier-r { background: #1e90ff; color: white; }
 
-/* --- 6. KHO ĐỒ & POPUP --- */
-.inventory-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; display: none; justify-content: center; align-items: center; }
-.inventory-content { background: #1e272e; width: 90%; max-width: 500px; padding: 20px; border-radius: 15px; border: 2px solid var(--gold); max-height: 80vh; overflow-y: auto; text-align: center; }
-
 .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; z-index: 1000; }
 .popup-overlay.active { opacity: 1; pointer-events: auto; z-index: 9999; }
 .popup { background: #1e272e; padding: 20px; border-radius: 15px; text-align: center; border: 2px solid var(--ssr); }
@@ -175,19 +305,24 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #fff
     .main-layout { flex-direction: column; align-items: center; }
 }
 /* Tinh chỉnh Popup chính */
-.inventory-content {
-    background: #1e272e;
-    width: 95%; /* Chiếm phần lớn màn hình mobile */
-    max-width: 400px; /* Giới hạn chiều rộng tối đa */
-    padding: 20px;
-    border-radius: 15px;
-    border: 3px solid var(--gold);
-    max-height: 80vh;
+#inventoryScreen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: transparent;
+    z-index: 200;
     overflow-y: auto;
-    text-align: center;
-    position: relative;
+    padding: 80px 20px 20px 20px; /* Thêm padding cho đẹp */
+    box-sizing: border-box;
+    display: none;
 }
+#inventoryContent { display: block; }
 
+.inventory-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
 /* Biến inventoryList thành dạng Grid */
 /* Điều chỉnh lưới để các ô nhỏ lại */
 #inventoryList {
@@ -200,26 +335,34 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #fff
 
 /* Kích thước khung từng ô item */
 .inventory-item {
-    width: 60px;   /* Giảm chiều rộng cố định */
-    height: 70px;  /* Giảm chiều cao cố định */
-    padding: 5px;
-    background: rgba(0,0,0,0.4);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 6px;
+    position: relative;
+    background: #1e272e;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    font-size: 0.65rem; /* Giảm cỡ chữ tên item cho khớp */
-    text-align: center;
+    transition: transform 0.2s;
+    z-index: 1;
+}
+
+.inventory-item:hover {
+    transform: translateY(-5px);
+    border-color: var(--gold);
 }
 
 /* Ảnh nhỏ lại */
 .inventory-item img {
-    width: 35px; 
-    height: 35px;
+    width: 60px;
+    height: 60px;
     object-fit: contain;
-    margin-bottom: 3px;
+}
+
+.inventory-info {
+    font-size: 0.8rem;
+    margin-top: 5px;
+    font-weight: bold;
 }
 
 /* Số lượng nhỏ lại */
@@ -239,6 +382,39 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #fff
     position: relative !important;
     z-index: 10 !important;
 }
+
+.delete-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 100 !important; /* Quan trọng: Đẩy lên cao nhất */
+    cursor: pointer;
+    pointer-events: auto !important; /* Quan trọng: Đảm bảo nút nhận click */
+    background: #ff4757;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    line-height: 1;
+}
+
+.delete-btn:hover {
+    background: #c0392b;
+}
+
+#deletePopup .popup {
+    background: #1e272e;
+    padding: 20px;
+    border-radius: 15px;
+    border: 2px solid var(--gold);
+    color: white;
+    text-align: center;
+}
 /* Định dạng nút X */
 .close-popup-btn {
     position: absolute;
@@ -257,11 +433,6 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #fff
     color: #ff4757; /* Đổi màu khi di chuột vào */
 }
 
-/* Đảm bảo nội dung không bị nút X đè lên */
-.inventory-content {
-    position: relative; /* Quan trọng để nút X nằm đúng góc */
-    padding-top: 40px; /* Tạo khoảng trống phía trên cho nút X */
-}
 /* Màu cho tên theo cấp độ */
 .tier-ssr .item-name { color: #ff4757; } /* SSR màu đỏ */
 .tier-sr .item-name  { color: #ffa502; } /* SR màu cam */
@@ -351,7 +522,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #fff
     width: 90%;
     max-width: 400px;
     margin: 80px auto 40px auto; /* Căn giữa bằng auto */
-    background: rgba(0, 0, 0, 0.85);
+    background: transparent;
     color: #fff;
     padding: 15px;
     border-radius: 8px;
@@ -359,6 +530,26 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #fff
     /* Xóa mọi thuộc tính position: absolute hoặc left/right nếu có */
     position: relative; 
 }
+#resultLog h3 {
+    font-size: 1.1rem;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+#resultList {
+    list-style: none; /* Xóa dấu tròn đầu hàng */
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Canh giữa nội dung */
+    gap: 5px;
+}
+
+/* Đổi màu tên item theo độ hiếm */
+.tier-ssr-text { color: #ff4757; font-weight: bold; }
+.tier-sr-text  { color: #ffa502; font-weight: bold; }
+.tier-r-text   { color: #1e90ff; font-weight: bold; }
 #logoutBtn {
     position: relative; /* Hoặc absolute nếu cần */
     z-index: 999;       /* Đảm bảo nằm trên các layer khác */
@@ -376,3 +567,122 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #fff
         height: 130px;
     }
 }
+.screen {
+    width: 100%;
+    height: 100vh;
+    background: #1a1a2e; /* Tông màu tối chuyên nghiệp */
+    padding: 20px;
+    box-sizing: border-box;
+    transition: opacity 0.3s ease-in-out;
+    padding-top: 20px;
+}
+
+.inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Tăng lên 120px để dễ nhìn hơn */
+    gap: 15px;
+    margin: 0 auto;
+    max-width: 800px;
+}
+.header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    max-width: 800px;
+    margin: 0 auto 20px auto;
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+#inventoryScreen::-webkit-scrollbar { width: 8px; }
+#inventoryScreen::-webkit-scrollbar-track { background: #0b0e17; }
+#inventoryScreen::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
+.tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+.tab-btn { 
+    padding: 10px 25px; border: none; border-radius: 20px; 
+    background: #2f3542; color: #fff; cursor: pointer; transition: 0.3s; 
+}
+.tab-btn.active { background: var(--gold); color: #000; font-weight: bold; }
+.tab-content { 
+    width: 100%; 
+    display: none;
+}
+/* Ẩn nút tăng giảm mặc định của trình duyệt trên Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Tăng độ lớn cho ô nhập để dễ thao tác trên điện thoại */
+#deleteAmount {
+    font-size: 16px;
+    outline: none;
+}
+#deleteAmount:focus {
+    border-color: var(--gold);
+}
+/* Thanh trên */
+.top-bar {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 70px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 20px; background: rgba(0, 0, 0, 0.7);
+    z-index: 1000; box-sizing: border-box;
+}
+
+/* Thanh dưới */
+.bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; width: 100%; height: 70px;
+    display: flex; justify-content: space-around; align-items: center;
+    background: rgba(0, 0, 0, 0.8);
+    border-top: 1px solid #444; z-index: 1000;
+}
+
+.nav-btn {
+    background: none; border: none; font-size: 28px;
+    cursor: pointer; transition: 0.3s;
+}
+.nav-btn:hover { transform: scale(1.2); }
+
+/* Đảm bảo nội dung không bị đè bởi 2 thanh */
+#mainContent {
+    padding-top: 80px; 
+    padding-bottom: 80px;
+    width: 100%;
+}
+/* Styling thanh công cụ */
+.top-bar, .bottom-nav { 
+    display: none; /* Mặc định ẩn, JS sẽ bật lên khi login */
+    position: fixed; 
+    left: 0; 
+    width: 100%; 
+    background: rgba(0, 0, 0, 0.4); /* Trong suốt nhẹ */
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1000; 
+}
+.top-bar { 
+    top: 0; 
+    height: 80px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 0 20px; 
+    border-bottom: 1px solid #444; 
+}
+.bottom-nav { 
+    bottom: 0; 
+    height: 70px; 
+    display: flex; 
+    justify-content: space-around; 
+    align-items: center; 
+    border-top: 1px solid #444; 
+}
+.nav-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: white; }
+.game-content { padding-top: 60px; padding-bottom: 70px; }
